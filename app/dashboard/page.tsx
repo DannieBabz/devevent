@@ -1,6 +1,7 @@
 import { Container } from '@/components/shared/Container'
 import { Button } from '@/components/ui/button'
 import EventTable from '@/components/dashboard/event-table'
+import Link from 'next/link'
 import React from 'react'
 
 export default function Page() {
@@ -10,7 +11,8 @@ export default function Page() {
             <div>
                 <div className="flex items-center justify-between">
                     <h2>Event Management</h2>
-                    <Button variant="secondary">Add Event</Button>
+                    <Button variant="secondary"><Link href="/create-event">Add Event</Link></Button>
+
                 </div>
                 <EventTable />
                 <div className="flex flex-row justify-between">

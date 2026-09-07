@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from '../shared/Container'
+import Image from 'next/image'
 import {
   Table,
   TableBody,
@@ -27,7 +27,10 @@ export default function EventTable() {
                     <TableBody className="bg-[#0D161A] w-full">
                         {TableData.map((data, id) => (
                             <TableRow key={id}>
-                                <TableCell>{data.event}</TableCell>
+                                <TableCell className="flex gap-x-2 items-center">
+                                    <Image src={data.image} alt={data.event} width={10} height={10} className="w-5 h-5 rounded-full" />
+                                    {data.event}
+                                </TableCell>
                                 <TableCell>{data.location}</TableCell>
                                 <TableCell>{data.date}</TableCell>
                                 <TableCell>{data.time}</TableCell>

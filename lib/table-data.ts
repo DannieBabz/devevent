@@ -6,6 +6,7 @@ export const TableData = [
         date: "13th September, 2025",
         time: "12:25pm - 2:40pm",
         booked_spot: "400",
+        image: "/item-1.png"
     },
     {
         id: 2,
@@ -14,6 +15,7 @@ export const TableData = [
         date: "14th September, 2025",
         time: "2:45pm - 4:00pm",
         booked_spot: "1000",
+        image: "/item-2.png"
     },
     {
         id: 3,
@@ -22,6 +24,7 @@ export const TableData = [
         date: "16th September, 2025",
         time: "5:35pm - 7:00pm",
         booked_spot: "450",
+        image: "/item-3.png"
     },
     {
         id: 4,
@@ -30,6 +33,7 @@ export const TableData = [
         date: "17th September, 2025",
         time: "7:05pm - 8:30pm",
         booked_spot: "1100",
+        image: "/item-4.png"
     },
     {
         id: 5,
@@ -38,6 +42,7 @@ export const TableData = [
         date: "19th September, 2025",
         time: "10:05pm - 11:30pm",
         booked_spot: "500",
+        image: "/item-5.png"
     },
     {
         id: 6,
@@ -46,6 +51,7 @@ export const TableData = [
         date: "20th September, 2025",
         time: "11:35pm - 1:00am",
         booked_spot: "1200",
+        image: "/item-6.png"
     },
     {
         id: 7,
@@ -54,6 +60,7 @@ export const TableData = [
         date: "22nd September, 2025",
         time: "2:35am - 4:00am",
         booked_spot: "350",
+        image: "/item-7.png"
     },
     {
         id: 8,
@@ -62,6 +69,7 @@ export const TableData = [
         date: "23rd September, 2025",
         time: "4:05am - 5:30am",
         booked_spot: "950",
+        image: "/item-8.png"
     },
     {
         id: 9,
@@ -70,6 +78,7 @@ export const TableData = [
         date: "25th September, 2025",
         time: "7:05am - 8:30am",
         booked_spot: "1300",
+        image: "/item-9.png"
     },
     {
         id: 10,
@@ -78,5 +87,6 @@ export const TableData = [
         date: "26th September, 2025",
         time: "8:35am - 10:00am",
         booked_spot: "700",
+        image: "/item-10.png"
     },
 ]

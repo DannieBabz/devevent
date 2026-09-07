@@ -7,15 +7,11 @@ export const NAVBAR_ITEMS = [
   },
   {
     label: "Events",
-    href: "/events",
+    href: "/dashboard",
   },
   {
     label: "Create Events",
-    href: "/create-events",
-  },
-  {
-    label: "Dash",
-    href: "/dashboard",
+    href: "/create-event",
   },
 ];
 

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const FeaturedEvents = () => {
   return (
-    <section>
+    <section className="my-20">
         <Container>
             <div className="text-accent mx-auto">
                 <h3 className="text-lg md:text-2xl font-bold mb-5">
