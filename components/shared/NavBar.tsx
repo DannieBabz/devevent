@@ -10,7 +10,7 @@ const NavBar = () => {
         <Container >
             <div className="flex items-center justify-between py-4 text-accent">
                 <div className="flex items-center space-x-2">
-                    <Image src="/DevEventlogo.png" alt="Logo" width={40} height={40}  className="max-sm:h-5 max-sm:w-5"/>
+                    <Image src="/devEventLogo.png" alt="Logo" width={40} height={40}  className="max-sm:h-5 max-sm:w-5"/>
                     <h1 className="hidden md:block md:text-xl font-bold">DevEvent</h1>
                 </div>
                 <div className="flex items-center space-x-4">
