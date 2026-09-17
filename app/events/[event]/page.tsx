@@ -13,14 +13,12 @@ interface EventDetailPageProps {
   params: Promise<{ event: string }>;
 }
 
-// interface EventDetailItem {
-//   icon: IconKey;
-//   label: string;
-// }
 
 
 const EventDetails = async ({ params }: EventDetailPageProps) => {
+  
   const { event } = await params;
+
   const eventDetails = FEATURED_EVENTS.find((e) => e.id === Number(event));
   if(!eventDetails) {
     return (
