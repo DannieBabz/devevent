@@ -1,4 +1,4 @@
-import {Schema } from "mongoose"
+import {Schema, models, model } from "mongoose"
 import { Event, AgendaItem, Organizer } from "@/types/events"
 
 const AgendaItemSchema = new Schema<AgendaItem>(
@@ -106,3 +106,6 @@ export const EventSchema = new Schema<Event>(
     timestamps: true,
   },
  );
+
+ const Events = models.Event || model<Event>("Event", EventSchema);
+ export default Events;
