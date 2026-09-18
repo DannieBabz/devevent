@@ -1,36 +1,36 @@
-import {Schema, models, model } from "mongoose"
-import { Event, AgendaItem, Organizer } from "@/types/events"
+import { Schema, models, model } from "mongoose";
+import { Event, AgendaItem, Organizer } from "@/types/events";
 
 const AgendaItemSchema = new Schema<AgendaItem>(
-    {
-        time:{
-            type: String,
-            required: true,
-        },
-        title:{
-            type: String,
-            required: true,
-        }
+  {
+    time: {
+      type: String,
+      required: true,
     },
-    {
-        _id: false,
-    }
-)
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
 const OrganizerSchema = new Schema<Organizer>(
-    {
-        name:{
-            type: String,
-            required: true,
-        },
-        description:{
-            type: String,
-            required: true,
-        }
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    {
-        _id: false,
-    }
-)
+    description: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
 
 export const EventSchema = new Schema<Event>(
   {
@@ -47,14 +47,14 @@ export const EventSchema = new Schema<Event>(
       maxlength: [1000, "Description cannot exceed 1000 characters"],
     },
     date: {
-        type: String,
-        required: [true, "Date is required"],
-        trim: true,
+      type: String,
+      required: [true, "Date is required"],
+      trim: true,
     },
     location: {
-        type: String,
-        required: [true, "Date is required"],
-        trim: true,
+      type: String,
+      required: [true, "Location is required"],
+      trim: true,
     },
     imageUrl: {
       type: String,
@@ -77,8 +77,20 @@ export const EventSchema = new Schema<Event>(
       trim: true,
       maxlength: [100, "Overview cannot exceed 100 characters"],
     },
-    details: {
-      type: [String],
+    venue: {
+      type: String,
+      required: [true, "Title is required"],
+      trim: true,
+      maxlength: [100, "Title cannot exceed 100 characters"],
+    },
+    mode: {
+      type: String,
+      required: [true, "Title is required"],
+      trim: true,
+      maxlength: [100, "Title cannot exceed 100 characters"],
+    },
+    audience: {
+      type: String,
       required: [true, "Title is required"],
       trim: true,
       maxlength: [100, "Title cannot exceed 100 characters"],
@@ -105,7 +117,7 @@ export const EventSchema = new Schema<Event>(
   {
     timestamps: true,
   },
- );
+);
 
- const Events = models.Event || model<Event>("Event", EventSchema);
- export default Events;
+const Events = models.Event || model<Event>("Event", EventSchema);
+export default Events;

@@ -8,7 +8,9 @@ export interface Event {
   type: string;
   time: string;
   overview: string[];
-  details: string[];
+  venue: string;
+  mode: string;
+  audience: string;
   agenda: AgendaItem[];
   about: Organizer[];
   tags: string[];
@@ -17,10 +19,11 @@ export interface Event {
 }
 
 export type AgendaItem = {
-    time: string;
-    title: string
-}
+  time: string;
+  title: string;
+};
 export type Organizer = {
-    name: string;
-    description: string;
-}
+  name: string;
+  description: string;
+};
+
