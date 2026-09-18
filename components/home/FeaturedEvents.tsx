@@ -64,7 +64,9 @@ const FeaturedEvents = async () => {
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default FeaturedEvents
+export default FeaturedEvents;
+
+// oiQJyBq3sJoiToHo;

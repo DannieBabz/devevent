@@ -13,6 +13,7 @@ interface EventDetailPageProps {
 }
 
 const EventDetails = async ({ params }: EventDetailPageProps) => {
+  
   const { event } = await params;
 
   let events: Event[] = [];
