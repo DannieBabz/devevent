@@ -1,4 +1,4 @@
-import { AudienceIcon, CalendarIcon, LocationIcon, TimeIcon, VenueIcon } from '@/components/icons';
+
 
 export const NAVBAR_ITEMS = [
   {
@@ -24,32 +24,14 @@ export const FEATURED_EVENTS = [
         location: "San Francisco, CA",
         imageUrl: "/item-1.png",
         time: "12:25pm - 2:45pm",
+        venue: "Yerba Buena Center for the Arts, San Francisco, CA",
+        mode: "Hybrid (In-person + Online Streaming)",
+        audience: "Developers, DevOps engineers, cloud architects, tech leaders",
         overview: [
             "GitHub Universe 2025 is back, bringing together developers, innovators, and industry leaders from around the world. This flagship event dives deep into the future of software, open source, and AI-driven development.",
             "Expect hands-on sessions, inspiring keynotes, and networking with the brightest minds shaping the future of tech."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 28th October 2025 – 29th October 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 9:30 AM – 5:00 PM (PDT)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: Yerba Buena Center for the Arts, San Francisco, CA",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: Hybrid (In-person + Online Streaming)",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, DevOps engineers, cloud architects, tech leaders",
-            },
-        ],
+
         agenda: [
             "09:30 AM – 10:30 AM | Opening Keynote: The Future of AI & Open Source",
             "10:45 AM – 12:00 PM | Breakout Sessions (Security, DevOps, Cloud, AI)",
@@ -72,32 +54,14 @@ export const FEATURED_EVENTS = [
         location: "Zadar, Croatia",
         imageUrl: "/item-2.png",
         time: "12:25pm - 2:40pm",
+        venue: "Zadar, Croatia",
+        mode: "In-person",
+        audience: "Developers, marketers, business leaders",
         overview: [
             "Infobip Shift 2025 is the premier event for developers and marketers to learn about the latest trends in digital communication and automation.",
             "Discover how to leverage cutting-edge technologies to enhance customer engagement and drive business growth."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 13th September 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 9:00 AM – 5:00 PM (CET)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: Zadar, Croatia",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, marketers, business leaders",
-            },
-        ],
+
         agenda: [
             "09:00 AM – 10:00 AM | Registration & Welcome Coffee",
             "10:00 AM – 11:30 AM | Keynote: The Future of Digital Communication",
@@ -119,32 +83,14 @@ export const FEATURED_EVENTS = [
         location: "San Francisco, CA",
         imageUrl: "/item-3.png",
         time: "12:25pm - 5:00pm",
+        venue: "San Francisco, CA",
+        mode: "In-person",
+        audience: "Developers",
         overview: [
             "React & Frontend Magic is a comprehensive workshop designed to help developers master the latest techniques in React development.",
             "Learn how to build scalable and maintainable frontend applications using modern React patterns and best practices."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 7th February 2024",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 5:00 PM (PST)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: San Francisco, CA",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers",
-            },
-        ],
+
         agenda: [
             "12:25 PM – 1:25 PM | Introduction to Modern React",
             "1:25 PM – 2:25 PM | Advanced React Patterns",
@@ -166,32 +112,14 @@ export const FEATURED_EVENTS = [
         location: "Zadar, Croatia",
         imageUrl: "/item-4.png",
         time: "10:25pm - 2:00pm",
+        venue: "Zadar, Croatia",
+        mode: "In-person",
+        audience: "Developers, software engineers, tech enthusiasts",
         overview: [
             "DevWorld 2025 is the ultimate conference for developers, offering a deep dive into the latest technologies, frameworks, and best practices in software development.",
             "Join industry experts and thought leaders for an immersive experience that will elevate your skills and knowledge."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 13th November 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 10:25 PM – 2:00 PM (CET)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: Zadar, Croatia",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, software engineers, tech enthusiasts",
-            },
-        ],
+
         agenda: [
             "10:25 PM – 11:25 PM | Registration & Welcome Drinks",
             "11:25 PM – 12:30 AM | Keynote: The Future of Software Development",
@@ -212,32 +140,14 @@ export const FEATURED_EVENTS = [
         location: "The Midway, SF",
         imageUrl: "/item-5.png",
         time: "12:25pm - 2:00pm",
+        venue: "The Midway, SF",
+        mode: "In-person",
+        audience: "Developers, designers, marketers",
         overview: [
             "The Cloudinary User Summit is a premier event for developers, designers, and marketers who want to learn about the latest innovations in image and video optimization.",
             "Connect with industry experts and peers to share knowledge and best practices."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 22nd October 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 2:00 PM (PST)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: The Midway, SF",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, designers, marketers",
-            },
-        ],
+
         agenda: [
             "12:25 PM – 1:25 PM | Registration & Welcome Coffee",
             "1:25 PM – 2:25 PM | Keynote: The Future of Image Optimization",
@@ -258,32 +168,14 @@ export const FEATURED_EVENTS = [
         location: "New York City",
         imageUrl: "/item-6.png",
         time: "12:25pm - 2:40pm",
+        venue: "New York City",
+        mode: "In-person",
+        audience: "Developers, frontend engineers, tech leads",
         overview: [
             "Vercel Ship is the ultimate event for developers building modern web applications.",
             "Learn how to leverage Vercel's platform to deploy, optimize, and scale your projects."
         ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 7th February 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 2:40 PM (EST)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: New York City",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers",
-            },
-        ],
+
         agenda: [
             "12:25 PM – 1:25 PM | Registration & Welcome Coffee",
             "1:25 PM – 2:25 PM | Keynote: The Future of Web Development",
@@ -304,31 +196,12 @@ export const FEATURED_EVENTS = [
         location: "Zadar, Croatia",
         imageUrl: "/item-7.png",
         time: "12:25pm - 2:00pm",
+        venue: "Zadar, Croatia",
+        mode: "In-person",
+        audience: "Developers, engineers, product managers",
         overview: [
             "Infobip Shift 2025 is the premier conference for developers and professionals in the telecommunications and messaging industry.",
             "Discover the latest trends, innovations, and best practices in real-time communications."
-        ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 13th September 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 2:00 PM (CET)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: Zadar, Croatia",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, engineers, product managers",
-            },
         ],
         agenda: [
             "12:25 PM – 1:25 PM | Registration & Welcome Coffee",
@@ -350,31 +223,12 @@ export const FEATURED_EVENTS = [
         location: "San Francisco, CA",
         imageUrl: "/item-8.png",
         time: "12:25pm - 1:00pm",
+        venue: "San Francisco, CA",
+        mode: "In-person",
+        audience: "Developers, designers",
         overview: [
             "The Google Chrome Conference is the premier event for developers and designers working with the latest web technologies.",
             "Learn about the newest features and capabilities of Google Chrome and how to leverage them in your projects."
-        ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 10th December 2025",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 1:00 PM (PST)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: San Francisco, CA",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, designers",
-            },
         ],
         agenda: [
             "12:25 PM – 1:25 PM | Registration & Welcome Coffee",
@@ -396,31 +250,12 @@ export const FEATURED_EVENTS = [
         location: "Zagreb, Croatia",
         imageUrl: "/item-9.png",
         time: "12:25pm - 5:00pm",
+        venue: "Zagreb, Croatia",
+        mode: "In-person",
+        audience: "Developers, designers",
         overview: [
             "The DOM Summit is the premier event for developers and designers working with the latest web technologies.",
             "Learn about the newest features and capabilities of the Document Object Model and how to leverage them in your projects."
-        ],
-        details: [
-            {
-                icon: CalendarIcon,
-                label: "Date: 7th February 2026",
-            },
-            {
-                icon: TimeIcon,
-                label: "Time: 12:25 PM – 5:00 PM (CET)",
-            },
-            {
-                icon: LocationIcon,
-                label: "Venue: Zagreb, Croatia",
-            },
-            {
-                icon: VenueIcon,
-                label: "Mode: In-person",
-            },
-            {
-                icon: AudienceIcon,
-                label: "Audience: Developers, designers",
-            },
         ],
         agenda: [
             "12:25 PM – 1:25 PM | Registration & Welcome Coffee",
