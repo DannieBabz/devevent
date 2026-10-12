@@ -1,123 +1,90 @@
-import { Schema, models, model } from "mongoose";
-import { Event, AgendaItem, Organizer } from "@/types/events";
+import { z } from "zod";
 
-const AgendaItemSchema = new Schema<AgendaItem>(
-  {
-    time: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    _id: false,
-  },
-);
-const OrganizerSchema = new Schema<Organizer>(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    _id: false,
-  },
-);
+const eventTypeSchema = z
+  .string()
+  .refine(
+    (value) => ["In-Person", "Hybrid", "Online"].includes(value),
+    "Select a valid event type",
+  );
 
-export const EventSchema = new Schema<Event>(
-  {
-    title: {
-      type: String,
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    description: {
-      type: String,
-      required: [true, "Description is required"],
-      trim: true,
-      maxlength: [1000, "Description cannot exceed 1000 characters"],
-    },
-    date: {
-      type: String,
-      required: [true, "Date is required"],
-      trim: true,
-    },
-    location: {
-      type: String,
-      required: [true, "Location is required"],
-      trim: true,
-    },
-    imageUrl: {
-      type: String,
-      required: [true, "Image URL is required"],
-      trim: true,
-    },
-    type: {
-      type: String,
-      required: [true, "Type is required"],
-      enum: ["In-Person", "Hybrid", "Online"],
-    },
-    time: {
-      type: String,
-      required: [true, "Time is required"],
-      trim: true,
-    },
-    overview: {
-      type: [String],
-      required: [true, "Overview is required"],
-      trim: true,
-      maxlength: [100, "Overview cannot exceed 100 characters"],
-    },
-    venue: {
-      type: String,
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    mode: {
-      type: String,
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    audience: {
-      type: String,
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    agenda: {
-      type: [AgendaItemSchema],
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    about: {
-      type: [OrganizerSchema],
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-    tags: {
-      type: [String],
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+const imageSchema = z
+  .custom<File | null>(
+    (value) =>
+      value === null ||
+      (typeof File !== "undefined" && value instanceof File),
+    "Upload a valid image file",
+  )
+  .refine(
+    (file): file is File => file !== null && file.size > 0,
+    "An event image is required",
+  )
+  .refine((file) => file !== null && file.size <= 9 * 1024 * 1024, {
+    message: "Event images must be 9 MB or smaller",
+  })
+  .refine((file) => file !== null && file.type.startsWith("image/"), {
+    message: "Upload an image file",
+  });
 
-const Events = models.Event || model<Event>("Event", EventSchema);
-export default Events;
+export const EventSchema = z.object({
+  title: z.string().trim().min(1, "Title is required").max(100),
+  description: z
+    .string()
+    .trim()
+    .min(1, "Description is required")
+    .max(1000),
+  date: z.string().trim().min(1, "Date is required"),
+  time: z.string().trim().min(1, "Time is required"),
+  venue: z.string().trim().min(1, "Venue is required").max(100),
+  location: z.string().trim().min(1, "Location is required"),
+  image: imageSchema,
+  type: eventTypeSchema,
+  mode: z.string().trim().min(1, "Mode is required").max(100),
+  audience: z.string().trim().min(1, "Audience is required").max(100),
+  overview: z
+    .string()
+    .trim()
+    .min(1, "Overview is required")
+    .refine(
+      (value) => value.split(/\n|,/).some((item) => item.trim().length > 0),
+      "Add at least one overview point",
+    ),
+  agenda: z.array(
+    z.object({
+      time: z.string(),
+      title: z.string(),
+    }),
+  ),
+  organizerName: z.string().trim().min(1, "Organizer name is required"),
+  about: z.string().trim().min(1, "About the organizer is required"),
+  tags: z.string(),
+});
+
+export const EventDocumentSchema = z.object({
+  title: z.string().trim().min(1).max(100),
+  description: z.string().trim().min(1).max(1000),
+  date: z.string().trim().min(1),
+  time: z.string().trim().min(1),
+  venue: z.string().trim().min(1).max(100),
+  location: z.string().trim().min(1),
+  imageUrl: z.string().trim().min(1),
+  type: z.enum(["In-Person", "Hybrid", "Online"]),
+  mode: z.string().trim().min(1).max(100),
+  audience: z.string().trim().min(1).max(100),
+  overview: z.array(z.string().trim().min(1)),
+  agenda: z.array(
+    z.object({
+      time: z.string().trim().min(1),
+      title: z.string().trim().min(1),
+    }),
+  ),
+  about: z.array(
+    z.object({
+      name: z.string().trim().min(1),
+      description: z.string().trim().min(1),
+    }),
+  ),
+  tags: z.array(z.string().trim().min(1)),
+});
+
+export type EventValues = z.infer<typeof EventSchema>;
+export type EventDocument = z.infer<typeof EventDocumentSchema>;

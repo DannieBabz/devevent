@@ -11,7 +11,7 @@ const NavBar = () => {
             <div className="flex items-center justify-between py-4 text-accent">
                 <div className="flex items-center space-x-2">
                     <Image src="/devEventLogo.png" alt="Logo" width={40} height={40}  className="max-sm:h-5 max-sm:w-5"/>
-                    <h1 className="hidden md:block md:text-xl font-bold">DevEvent</h1>
+                    <h1 className="hidden md:block md:text-xl font-bold">EventNest</h1>
                 </div>
                 <div className="flex items-center space-x-4">
                     {NAVBAR_ITEMS.map((item, i) => (
