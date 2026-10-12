@@ -32,7 +32,7 @@ const EventDetails = async ({ params }: EventDetailPageProps) => {
 
   const eventDetails =
     events.find(
-      (e) => e._id === event || (e as any).id?.toString() === event,
+      (e) => e._id === event,
     ) || FEATURED_EVENTS.find((e) => e.id.toString() === event);
 
   if (!eventDetails) {
@@ -121,7 +121,7 @@ const EventDetails = async ({ params }: EventDetailPageProps) => {
           {eventDetails.agenda && eventDetails.agenda.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold my-5">Agenda</h2>
-              {eventDetails.agenda.map((item: any, index: number) => (
+              {eventDetails.agenda.map((item, index) => (
                 <ul key={index} className="flex px-10">
                   <li className="list-disc gap-y-3">
                     {typeof item === "string" ? (
@@ -140,7 +140,7 @@ const EventDetails = async ({ params }: EventDetailPageProps) => {
           {eventDetails.about && eventDetails.about.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold my-5">About the Organizer</h2>
-              {eventDetails.about.map((item: any, index: number) => (
+              {eventDetails.about.map((item, index) => (
                 <div key={index} className="mb-4">
                   {typeof item === "string" ? (
                     <p>{item}</p>

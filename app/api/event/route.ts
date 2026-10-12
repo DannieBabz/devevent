@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-import Events from "@/schemas/event.schema";
-import { v2 as cloudinary } from "cloudinary"
+import Events from "@/schemas/event.model";
+import { EventDocumentSchema } from "@/schemas/event.schema";
+import { v2 as cloudinary } from "cloudinary";
 
 export async function POST(request: NextRequest) {
   try {
@@ -81,7 +82,21 @@ export async function POST(request: NextRequest) {
 
     delete eventData.image;
 
-    const createdEvent = await Events.create(eventData);
+    const validatedEvent = EventDocumentSchema.safeParse(eventData);
+
+    if (!validatedEvent.success) {
+      return NextResponse.json(
+        {
+          message: "Invalid event data",
+          error: validatedEvent.error.issues
+            .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+            .join(", "),
+        },
+        { status: 400 },
+      );
+    }
+
+    const createdEvent = await Events.create(validatedEvent.data);
     return NextResponse.json(
       { message: "Event created successfully", event: createdEvent },
       { status: 201 },
