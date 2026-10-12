@@ -5,8 +5,8 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Event } from "@/types/events";
 import { CalendarIcon, TimeIcon, LocationIcon, AudienceIcon, VenueIcon } from "@/components/icons";
+import { getEventById } from "@/lib/events";
 
 interface EventDetailPageProps {
   params: Promise<{ event: string }>;
@@ -16,24 +16,9 @@ const EventDetails = async ({ params }: EventDetailPageProps) => {
   
   const { event } = await params;
 
-  let events: Event[] = [];
-
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/event`);
-
-    if (response.ok) {
-      const data = await response.json();
-      events = data?.event || [];
-    }
-  } catch (error) {
-    console.error("Failed to fetch featured events:", error);
-  }
-
   const eventDetails =
-    events.find(
-      (e) => e._id === event,
-    ) || FEATURED_EVENTS.find((e) => e.id.toString() === event);
+    (await getEventById(event)) ||
+    FEATURED_EVENTS.find((e) => e.id.toString() === event);
 
   if (!eventDetails) {
     return (
