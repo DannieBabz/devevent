@@ -1,24 +1,11 @@
-import React from 'react'
 import { Container } from '../shared/Container'
 import Image from 'next/image'
 import { CalendarIcon, LocationIcon, TimeIcon } from '../icons'
 import Link from 'next/link'
-import { Event } from '@/types/events'
+import { getEvents } from "@/lib/events";
 
 const FeaturedEvents = async () => {
-  let events: Event[] = []
-
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const response = await fetch(`${baseUrl}/api/event`)
-
-    if (response.ok) {
-      const data = await response.json()
-      events = data?.event || []
-    }
-  } catch (error) {
-    console.error("Failed to fetch featured events:", error)
-  }
+  const events = await getEvents();
 
   return (
     <section className="my-20">
