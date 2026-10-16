@@ -1,53 +1,85 @@
-import axios from "axios";
-import type { EventFormState } from "@/types/events";
+"use client";
+
+import type { Event } from "@/types/events";
 
 type ApiResponse<T> = {
   message?: string;
   event?: T;
   error?: string;
+  bookingCount?: number;
 };
 
-export type CreateEventInput = Omit<EventFormState, "image"> & {
-  image?: File | null;
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const EVENTS_ENDPOINT = "/api/event";
 
 async function apiRequest<T>(
   endpoint: string,
-  options?: RequestInit
+  init?: RequestInit,
 ): Promise<ApiResponse<T>> {
-  try {
-    const response = await axios<ApiResponse<T>>(`${API_URL}${endpoint}`, {
-      method: options?.method,
-      data: options?.body,
-      headers: Object.fromEntries(new Headers(options?.headers).entries()),
-    });
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const data = error.response?.data as ApiResponse<T> | undefined;
-      throw new Error(
-        data?.error || data?.message || error.message || "Something went wrong"
-      );
-    }
-    throw error;
-  }
-}
-
-export async function createEvent(
-  formData: FormData
-): Promise<EventFormState> {
-  const data = await apiRequest<EventFormState>("/api/events", {
-    method: "POST",
-    body: formData as unknown as BodyInit,
+  const response = await fetch(endpoint, {
+    ...init,
+    cache: "no-store",
   });
 
-  if (!data.event) {
-    throw new Error("Event was not returned from the API");
+  let data: ApiResponse<T>;
+  try {
+    data = (await response.json()) as ApiResponse<T>;
+  } catch {
+    throw new Error(`The events API returned an invalid response (${response.status})`);
   }
 
-  return data.event;
+  if (!response.ok) {
+    throw new Error(
+      data.error || data.message || `Request failed with status ${response.status}`,
+    );
+  }
+
+  return data;
+}
+
+export async function getEvents(): Promise<Event[]> {
+  const response = await apiRequest<Event[]>(EVENTS_ENDPOINT);
+  if (!Array.isArray(response.event)) {
+    throw new Error("The events API did not return an event list");
+  }
+  return response.event;
+}
+
+export async function getEvent(id: string): Promise<Event | null> {
+  const response = await apiRequest<Event>(
+    `${EVENTS_ENDPOINT}/${encodeURIComponent(id)}`,
+  );
+  return response.event ?? null;
+}
+
+export async function createEvent(formData: FormData): Promise<string> {
+  const response = await apiRequest<{ _id: string }>(EVENTS_ENDPOINT, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.event?._id) {
+    throw new Error("The events API did not return the created event");
+  }
+
+  return response.event._id;
+}
+
+export async function createBooking(
+  eventId: string,
+  email: string,
+): Promise<number> {
+  const response = await apiRequest<{ bookingCount: number }>(
+    `${EVENTS_ENDPOINT}/${encodeURIComponent(eventId)}/bookings`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    },
+  );
+
+  if (typeof response.bookingCount !== "number") {
+    throw new Error("The booking API did not return an updated booking count");
+  }
+
+  return response.bookingCount;
 }

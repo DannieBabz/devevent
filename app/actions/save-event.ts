@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import { revalidatePath } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
@@ -26,13 +26,13 @@ export async function createEventAction(formData: FormData) {
   const agendaValue = formData.get("agenda");
 
   if (typeof agendaValue !== "string") {
-    return { success: false, error: "Agenda data is missing" };
+    return { success: false, status: 400, error: "Agenda data is missing" };
   }
 
   try {
     agenda = JSON.parse(agendaValue);
   } catch {
-    return { success: false, error: "Agenda data is invalid" };
+    return { success: false, status: 400, error: "Agenda data is invalid" };
   }
 
   const validatedForm = EventSchema.safeParse({
@@ -56,6 +56,7 @@ export async function createEventAction(formData: FormData) {
   if (!validatedForm.success) {
     return {
       success: false,
+      status: 400,
       error: formatValidationError(validatedForm.error),
     };
   }
@@ -83,6 +84,7 @@ export async function createEventAction(formData: FormData) {
   if (!eventData.success) {
     return {
       success: false,
+      status: 400,
       error: formatValidationError(eventData.error),
     };
   }
@@ -117,16 +119,20 @@ export async function createEventAction(formData: FormData) {
       imageUrl,
     });
     revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
-      eventId: event._id.toString(),
+      event: {
+        _id: event._id.toString(),
+      },
     };
   } catch (error) {
     console.error("Create event action error:", error);
 
     return {
       success: false,
+      status: 500,
       error:
         error instanceof Error
           ? error.message
