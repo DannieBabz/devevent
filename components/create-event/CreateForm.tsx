@@ -37,7 +37,7 @@ import {
   EventFormFieldName,
   EventFormState,
 } from "@/types/events";
-import { createEventAction } from "@/app/actions/save-event";
+import { createEvent } from "@/lib/api-client";
 import { EventSchema } from "@/schemas/event.schema";
 
 interface EventDetailProps {
@@ -264,11 +264,7 @@ const CreateEvent = () => {
       payload.append("agenda", JSON.stringify(values.agenda));
       payload.append("image", values.image);
 
-      const result = await createEventAction(payload);
-      if (!result.success) {
-        setSubmissionMessage(result.error || "Failed to create the event");
-        return;
-      }
+      await createEvent(payload);
 
       setFormData(initialFormState);
       setDate(undefined);
@@ -310,7 +306,7 @@ const CreateEvent = () => {
                             type="button"
                             variant="outline"
                             data-empty={!date}
-                            className="justify-start text-left font-normal bg-[#182830] data-[empty=true]:text-muted-foreground"
+                            className="justify-start text-left font-normal bg-[#182830] focus:ring-2"
                           />
                         }
                       >
@@ -339,7 +335,7 @@ const CreateEvent = () => {
                         type="time"
                         value={formData.time}
                         onChange={(event) => updateField("time", event.target.value)}
-                        className="py-5 text-lg"
+                        className=""
                       />
                       <InputGroupAddon>
                         {detail.icon ? <detail.icon /> : null}
@@ -352,7 +348,7 @@ const CreateEvent = () => {
                       value={formData.type}
                       onValueChange={(value) => updateField("type", value ?? "")}
                     >
-                      <SelectTrigger className="w-full bg-[#182830] py-5 text-lg">
+                      <SelectTrigger className="w-full bg-[#182830]">
                         <SelectValue placeholder={detail.description} />
                       </SelectTrigger>
                       <SelectContent>
@@ -366,18 +362,26 @@ const CreateEvent = () => {
                   )}
 
                   {detail.kind === "file" && (
-                    <InputGroup className="bg-[#182830]">
+                    <InputGroup className="bg-[#182830] text-white">
                       <InputGroupInput
                         type="file"
                         accept={detail.accept}
                         onChange={(event) => handleFileChange(event.target.files?.[0] || null)}
-                        className="py-5 text-white text-lg"
+                        className="text-white text-lg"
                       />
                     </InputGroup>
                   )}
 
                   {detail.kind === "agenda" && (
                     <div className="flex flex-col gap-y-3">
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={addAgendaItem}
+                        className="self-end -mt-8"
+                      >
+                        + Add agenda item
+                      </Button>
                       {formData.agenda.map((item, index) => (
                         <div key={index} className="flex items-center gap-x-2">
                           <InputGroup className="bg-[#182830] w-32 shrink-0">
@@ -413,14 +417,6 @@ const CreateEvent = () => {
                           </Button>
                         </div>
                       ))}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={addAgendaItem}
-                        className="self-start bg-[#182830]"
-                      >
-                        + Add agenda item
-                      </Button>
                     </div>
                   )}
 

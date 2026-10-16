@@ -1,134 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongodb";
-import Events from "@/schemas/event.model";
-import { EventDocumentSchema } from "@/schemas/event.schema";
-import { v2 as cloudinary } from "cloudinary";
+import { NextResponse } from "next/server";
+import { createEventAction } from "@/app/actions/save-event";
+import { getEventsAction } from "@/app/actions/event-data";
 
-export async function POST(request: NextRequest) {
+export async function GET() {
   try {
-    await connectDB();
-
-    const contentType = request.headers.get("content-type") || "";
-    let eventData: Record<string, unknown> = {};
-    let formData: FormData | null = null;
-
-    if (contentType.includes("application/json")) {
-      eventData = await request.json();
-    } else if (
-      contentType.includes("multipart/form-data") ||
-      contentType.includes("application/x-www-form-urlencoded")
-    ) {
-      formData = await request.formData();
-      eventData = Object.fromEntries(formData.entries());
-
-      // Attempt to parse stringified JSON or comma-separated values for array/object fields
-      const jsonFields = ["overview", "tags", "agenda", "about"];
-      for (const field of jsonFields) {
-        if (typeof eventData[field] === "string") {
-          try {
-            eventData[field] = JSON.parse(eventData[field] as string);
-          } catch {
-            if (["tags", "overview"].includes(field)) {
-              eventData[field] = (eventData[field] as string)
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean);
-            }
-          }
-        }
-      }
-    } else {
-      // Default to attempting JSON parse if content-type header is not set
-      try {
-        eventData = await request.json();
-      } catch {
-        return NextResponse.json(
-          {
-            message: "Unsupported Content-Type. Please send JSON or FormData.",
-          },
-          { status: 400 },
-        );
-      }
-    }
-
-    const file = formData ? (formData.get("image") as File | null) : null;
-
-    if (file && typeof file === "object" && "arrayBuffer" in file && file.size > 0) {
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      const uploadResult = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            {
-              resource_type: "image",
-              folder: "event-images",
-            },
-            (error, result) => {
-              if (error) return reject(error);
-              resolve(result);
-            },
-          )
-          .end(buffer);
-      });
-
-      eventData.imageUrl = (uploadResult as { secure_url: string }).secure_url;
-    } else if (!eventData.imageUrl) {
-      return NextResponse.json(
-        { message: "Image file is required" },
-        { status: 400 },
-      );
-    }
-
-    delete eventData.image;
-
-    const validatedEvent = EventDocumentSchema.safeParse(eventData);
-
-    if (!validatedEvent.success) {
-      return NextResponse.json(
-        {
-          message: "Invalid event data",
-          error: validatedEvent.error.issues
-            .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
-            .join(", "),
-        },
-        { status: 400 },
-      );
-    }
-
-    const createdEvent = await Events.create(validatedEvent.data);
+    const events = await getEventsAction();
     return NextResponse.json(
-      { message: "Event created successfully", event: createdEvent },
-      { status: 201 },
+      { message: "Events fetched successfully", event: events },
+      { status: 200 },
     );
-  } catch (err: unknown) {
-    console.error("Error creating event:", err);
+  } catch (error) {
+    console.error("Failed to fetch events:", error);
     return NextResponse.json(
       {
-        message: "Failed to create event",
-        error: err instanceof Error ? err.message : String(err),
+        message: "Failed to fetch events",
+        error: error instanceof Error ? error.message : String(error),
       },
       { status: 500 },
     );
   }
 }
 
-
-export async function GET() {
+export async function POST(request: Request) {
+  let formData: FormData;
   try {
-    await connectDB();
-    const event = await Events.find().sort({createdAt: -1})
+    formData = await request.formData();
+  } catch {
     return NextResponse.json(
-      { message: "Event fetched successfully", event },
-      { status: 200 },
-    );
-  } catch (err) {
-    return NextResponse.json(
-      {
-        message: "Failed to fetch event",
-        error: err instanceof Error ? err.message : String(err),
-      },
-      { status: 500 },
+      { message: "Expected multipart form data" },
+      { status: 400 },
     );
   }
+
+  const result = await createEventAction(formData);
+  if (!result.success) {
+    return NextResponse.json(
+      { message: "Failed to create event", error: result.error },
+      { status: result.status },
+    );
+  }
+
+  return NextResponse.json(
+    { message: "Event created successfully", event: result.event },
+    { status: 201 },
+  );
 }

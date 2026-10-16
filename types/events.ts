@@ -50,8 +50,9 @@ export interface Event {
   agenda: (AgendaItem | string)[];
   about: (Organizer | string)[];
   tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  bookingCount?: number;
 }
 
 export interface EventFormState {

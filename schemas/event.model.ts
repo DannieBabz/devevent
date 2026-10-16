@@ -2,6 +2,11 @@ import { model, models, Schema, type Model } from "mongoose";
 import type { EventDocument } from "@/schemas/event.schema";
 import type { AgendaItem, Organizer } from "@/types/events";
 
+export type PersistedEvent = EventDocument & {
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const AgendaItemSchema = new Schema<AgendaItem>(
   {
     time: { type: String, required: true },
@@ -18,7 +23,7 @@ const OrganizerSchema = new Schema<Organizer>(
   { _id: false },
 );
 
-const EventModelSchema = new Schema<EventDocument>(
+const EventModelSchema = new Schema<PersistedEvent>(
   {
     title: { type: String, required: true, trim: true, maxlength: 100 },
     description: { type: String, required: true, trim: true, maxlength: 1000 },
@@ -43,7 +48,7 @@ const EventModelSchema = new Schema<EventDocument>(
 );
 
 const Events =
-  (models.Event as Model<EventDocument> | undefined) ??
-  model<EventDocument>("Event", EventModelSchema);
+  (models.Event as Model<PersistedEvent> | undefined) ??
+  model<PersistedEvent>("Event", EventModelSchema);
 
 export default Events;
